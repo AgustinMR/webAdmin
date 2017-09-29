@@ -1,15 +1,14 @@
 <template>
     <div>
-        <div class="ui secondary inverted pointing menu grid"
-             style="background-color: #5d6a7c; border: 0px; margin-bottom: 0px">
-            <img src="src/assets/plaify-white.gif" style="height: 35px; margin-top: 7px; margin-left: 3px">
+        <div class="ui secondary inverted pointing menu grid paperviu-dark" style="border: 0px; margin-bottom: 0px">
+            <img src="src/assets/paperviu-darkblue.gif" style="height: 35px; margin-top: 7px; margin-left: 3px">
             <div class="right menu">
                 <a class="item">
                     <i class="sign out large icon"></i>
                     <span class="ui sub header inverted" style="margin: 0px">Salir</span>
                 </a>
             </div>
-            <div class="row" style="padding: 0px; background-color: #5d6a7c; margin-top: 7px">
+            <div class="row paperviu-dark" style="padding: 0px; margin-top: 7px">
                 <div class="ui small icon secondary pointing menu inverted"
                      style="width: 100%; border-top: 0px; border-left: 0px; border-right: 0px">
                     <a :class="{active: inicio}" @click="vistaInicio" class="item">

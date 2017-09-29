@@ -2,11 +2,9 @@
     <div>
         <div class="ui basic segment secondary paperviu-sky" style="margin-top: 0px; padding: 8px">
             <div class="ui container">
-                <i class="tags large inverted icon"></i>
+                <i class="sitemap large inverted icon"></i>
                 <div class="ui breadcrumb">
-                    <div class="ui header inverted section">Categorias</div>
-                    <div class="divider"><i class="right chevron inverted icon"></i></div>
-                    <div class="ui small header large inverted section">Tags o generos para contenidos.</div>
+                    <div class="ui header inverted section">Tipos de Contenido</div>
                 </div>
             </div>
         </div>
@@ -19,7 +17,7 @@
                         <input type="text" placeholder="Buscar por nombre...">
                     </div>
                     <div class="right menu">
-                        <button class="ui compact active basic button" @click="mostrarNuevo"><i class="add icon"></i>Crear Categor&iacute;a
+                        <button class="ui compact active basic button" @click="mostrarNuevo"><i class="add icon"></i>Crear Tipo
                         </button>
                     </div>
                 </div>
@@ -53,17 +51,19 @@
         </div>
         <div class="ui center aligned container" id="nueva" style="display: none">
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
-                <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Categoria Nueva</h2>
+                <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Tipo de Contenido Nuevo</h2>
                 <div class="ui fluid labeled small input" style="margin-top: 16px">
                     <div class="ui basic label">Nombre</div>
                     <input type="text" placeholder="Ingrese el nombre del tipo de contenido">
                 </div>
                 <div class="ui reply form" style="margin-top: 16px">
                     <div class="field">
-                        <textarea id="descripcion" cols="30"
-                                  style="min-height: 100px; max-width: 100%; min-width: 100%; max-height: 150px"
-                                  maxlength="1024" placeholder="Escriba una descripcion para el tipo..."></textarea>
+                        <textarea id="descripcion" cols="30" style="min-height: 100px; max-width: 100%; min-width: 100%; max-height: 150px" maxlength="1024" placeholder="Escriba una descripcion para el tipo..."></textarea>
                     </div>
+                </div>
+                <h3 class="ui sub header small grey horizontal divider">atributos</h3>
+                <div class="ui basic right aligned segment" style="margin-bottom: 0px">
+                    <button class="ui blue circular icon button" onclick="agregarAtributo()"><i class="add large icon"></i></button>
                 </div>
             </div>
             <div class="ui secondary bottom fixed menu">
@@ -101,13 +101,13 @@
 <script>
     export default {
         created() {
-            if(!this.$store.state.categoria) this.$store.commit('verCategoria');
+            if(!this.$store.state.tipos) this.$store.commit('verTipos');
         },
         methods: {
             mostrarNuevo() {
                 $('#listado').transition({
                     animation: 'fade',
-                    onComplete: function () {
+                    onComplete: function() {
                         $('#nueva').transition('fade');
                     }
                 });
@@ -116,7 +116,7 @@
             mostrarListado() {
                 $('#nueva').transition({
                     animation: 'fade',
-                    onComplete: function () {
+                    onComplete: function() {
                         $('#listado').transition('fade');
                     }
                 });

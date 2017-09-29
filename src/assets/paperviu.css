@@ -1,0 +1,79 @@
+.paperviu-sky {
+    color: #f6f9f9;
+    background-color: #6eb0c0 !important
+}
+
+.paperviu-dark {
+    color: #f6f9f9 !important;
+    background-color: #555d66 !important
+}
+
+.border-top-paperviu-sky {
+    border-color: #6eb0c0 !important;
+    border-top-style: solid;
+    border-top-width: 3px
+}
+
+.border-left-paperviu-sky {
+    border-color: #6eb0c0 !important;
+    border-left-style: solid;
+    border-left-width: 3px
+}
+
+.border-bottom-paperviu-sky {
+    border-color: #6eb0c0 !important;
+    border-bottom-style: solid;
+    border-bottom-width: 3px
+}
+
+.border-top-paperviu-dark {
+    border-color: #555d66 !important;
+    border-top-style: solid;
+    border-top-width: 3px
+}
+
+.border-left-paperviu-dark {
+    border-color: #555d66 !important;
+    border-left-style: solid;
+    border-left-width: 3px
+}
+
+.border-bottom-paperviu-dark {
+    border-color: #555d66 !important;
+    border-bottom-style: solid;
+    border-bottom-width: 3px
+}
+
+.hover-paperviu-sky:hover {
+    color: #f6f9f9 !important;
+    background-color: #6eb0c0 !important
+}
+
+.hover-paperviu-dark:hover {
+    color: #f6f9f9 !important;
+    background-color: #555d66 !important
+}
+
+.hover-text-paperviu-sky:hover {
+    color: #6eb0c0 !important
+}
+
+.hover-text-paperviu-dark:hover {
+    color: #555d66 !important
+}
+
+.hover-border-paperviu-sky:hover {
+    border-color: #6eb0c0 !important
+}
+
+.hover-border-paperviu-dark:hover {
+    border-color: #555d66 !important
+}
+
+.text-paperviu-sky {
+    color: #6eb0c0 !important
+}
+
+.text-paperviu-dark {
+    color: #555d66 !important
+}

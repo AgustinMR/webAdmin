@@ -3,8 +3,8 @@
 </template>
 <script>
     export default {
-        data() {
-            return {}
+        created(){
+            if(!this.$store.state.reporte) this.$store.commit('verReporte');
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="ui basic segment secondary" style="background-color: #bb7648; margin-top: 0px; padding: 8px">
+        <div class="ui basic segment secondary paperviu-sky" style="margin-top: 0px; padding: 8px">
             <div class="ui container">
                 <i class="dashboard large inverted icon"></i>
                 <div class="ui breadcrumb">
@@ -16,22 +16,22 @@
                     <div class="ui one columns stackable grid container">
                         <div class="column">
                             <div class="ui fluid basic button" @click="vistaCategorias" style="padding: 33px">
-                                <div class="ui icon large header" style="margin: 0px; color: #5d6a7c">
-                                    <i class="tags icon" style="color: #bb7648"></i> Categor&iacute;as
+                                <div class="ui icon large header text-paperviu-dark" style="margin:0px;">
+                                    <i class="tags icon text-paperviu-sky"></i> Categor&iacute;as
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="ui fluid basic button" @click="vistaReportes" style="padding: 33px">
-                                <div class="ui icon large header" style="margin: 0px; color: #5d6a7c">
-                                    <i class="pie chart icon" style="color: #bb7648"></i> Reportes
+                                <div class="ui icon large header text-paperviu-dark" style="margin: 0px">
+                                    <i class="pie chart icon text-paperviu-sky"></i> Reportes
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="ui fluid basic button" @click="vistaTipos" style="padding: 33px">
-                                <div class="ui icon large header" style="margin: 0px; color: #5d6a7c">
-                                    <i class="sitemap icon" style="color: #bb7648"></i> Tipos
+                                <div class="ui icon large header text-paperviu-dark" style="margin: 0px">
+                                    <i class="sitemap icon text-paperviu-sky"></i> Tipos
                                 </div>
                             </div>
                         </div>
@@ -41,14 +41,14 @@
                     <div class="ui segments" style="border: 0">
                         <div class="ui basic center aligned segment" style="background-color: #e3e9ed; padding: 0px">
                             <div class="ui secondary one item menu">
-                                <div class="link item" @click="vistaContenidos" style="padding: 16px;">
-                                    <div class="ui header icon large" style="margin: 0px; color: #5d6a7c">
-                                        <i class="film icon" style="color: #bb7648"></i>Ver Contenidos
+                                <div class="link item hover" @click="vistaContenidos" style="padding: 16px;">
+                                    <div class="ui header icon large text-paperviu-dark" style="margin: 0px">
+                                        <i class="film icon text-paperviu-sky"></i>Ver Contenidos
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ui basic segment orange" style="padding: 16px; background-color: #f2f5f7">
+                        <div class="ui segment border-top-paperviu-sky" style="padding: 16px; background-color: #f2f5f7">
                             <div class="ui one columns stackable center aligned grid container">
                                 <div class="column" style="padding: 32px">
                                     <div class="ui grey statistic">
@@ -77,13 +77,13 @@
                         <div class="ui basic center aligned segment" style="background-color: #e3e9ed; padding: 0px">
                             <div class="ui secondary one item menu">
                                 <div class="link item" @click="vistaEmpresas" style="padding: 16px;">
-                                    <div class="ui header icon large" style="margin: 0px; color: #5d6a7c">
-                                        <i class="industry icon" style="color: #bb7648"></i>Ver Empresas
+                                    <div class="ui header icon large text-paperviu-dark" style="margin: 0px">
+                                        <i class="industry icon text-paperviu-sky"></i>Ver Empresas
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ui basic segment orange" style="padding: 16px;background-color: #f2f5f7">
+                        <div class="ui segment border-top-paperviu-sky" style="padding: 16px;background-color: #f2f5f7">
                             <div class="ui one columns stackable center aligned grid container">
                                 <div class="column" style="padding: 32px">
                                     <div class="ui grey statistic">
@@ -112,13 +112,13 @@
                         <div class="ui basic center aligned segment" style="background-color: #e3e9ed; padding: 0px">
                             <div class="ui secondary one item menu">
                                 <div class="link item" @click="vistaClientes" style="padding: 16px;">
-                                    <div class="ui header icon large" style="margin: 0px; color: #5d6a7c">
-                                        <i class="users icon" style="color: #bb7648"></i>Ver Clientes
+                                    <div class="ui header icon large text-paperviu-dark" style="margin: 0px">
+                                        <i class="users icon text-paperviu-sky"></i>Ver Clientes
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="ui basic segment orange" style="padding: 16px; background-color: #f2f5f7">
+                        <div class="ui segment border-top-paperviu-sky" style="padding: 16px; background-color: #f2f5f7">
                             <div class="ui one columns stackable center aligned grid container">
                                 <div class="column" style="padding: 32px">
                                     <div class="ui grey statistic">
@@ -148,33 +148,36 @@
 </template>
 <script>
     export default {
-        methods:{
-            vistaCategorias(){
+        created() {
+            if (!this.$store.state.inicio) this.$store.commit('verInicio');
+        },
+        methods: {
+            vistaCategorias() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verCategoria');
                 this.$router.push('categorias');
             },
-            vistaReportes(){
+            vistaReportes() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verReporte');
                 this.$router.push('reportes');
             },
-            vistaTipos(){
+            vistaTipos() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verTipos');
                 this.$router.push('tipos');
             },
-            vistaContenidos(){
+            vistaContenidos() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verContenido');
                 this.$router.push('contenidos');
             },
-            vistaEmpresas(){
+            vistaEmpresas() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verEmpresa');
                 this.$router.push('empresas');
             },
-            vistaClientes(){
+            vistaClientes() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verCliente');
                 this.$router.push('clientes');
