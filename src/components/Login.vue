@@ -2,9 +2,9 @@
     <div>
         <div class="ui basic segment raised" style="background-color: #5d6a7c; padding: 32px; margin-bottom: 0px">
             <div class="ui center aligned text container">
-                <img src="src/assets/plaify-cat-white.gif" style="height: 35px">
+                <img src="src/assets/paperviu.gif" style="height: 35px">
                 <div class="divider"></div>
-                <img src="src/assets/plaify-white.gif" style="height: 50px">
+                <img src="src/assets/paperviu.gif" style="height: 50px">
             </div>
         </div>
         <div class="ui basic segment raised" style="background-color: #e0e7eb; padding: 32px; margin: 0px">

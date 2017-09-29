@@ -1,10 +1,10 @@
 <template>
     <div id="app">
         <div id="navComponent" style="display:block">
-            <plaify-nav v-if="autenticado"></plaify-nav>
+            <paperviu-nav v-if="autenticado"></paperviu-nav>
         </div>
         <div id="loginComponent">
-            <plaify-login v-if="!autenticado"></plaify-login>
+            <paperviu-login v-if="!autenticado"></paperviu-login>
         </div>
     </div>
 </template>
