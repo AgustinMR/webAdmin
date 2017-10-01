@@ -12,6 +12,7 @@ import Login from './components/Login.vue';
 import Nav from './components/Nav.vue';
 import Inicio from './components/Inicio.vue';
 import Tipo from './components/Tipo.vue';
+import Dimmer from './components/Dimmer.vue';
 
 import { store } from './store';
 
@@ -24,6 +25,7 @@ Vue.component('paperviu-login', Login);
 Vue.component('paperviu-nav', Nav);
 Vue.component('paperviu-inicio', Inicio);
 Vue.component('paperviu-tipo', Tipo);
+Vue.component('paperviu-dimmer', Dimmer);
 
 Vue.component('VueImgInputer', VueImgInputer);
 
