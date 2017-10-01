@@ -11,3 +11,5 @@ yarn-error.log
 *.njsproj
 *.sln
 /src/dist/
+
+src/dropbox_token\.js

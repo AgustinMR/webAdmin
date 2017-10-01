@@ -41,9 +41,13 @@
                 <div class="ui basic center aligned segment"
                      style="width: 100%; background-color: #e9eef1; border: 0px">
                     <div class="ui basic buttons">
-                        <button class="ui labeled basic active icon button"><i class="left chevron icon"></i>Anterior</button>
-                        <h3 class="ui basic active header" style="background-color: inherit; border: 0px; margin: 5px; padding-left: 7px; padding-right: 7px">1</h3>
-                        <button class="ui basic active right labeled icon button">Siguiente<i class="right chevron icon"></i>
+                        <button class="ui labeled basic active icon button"><i class="left chevron icon"></i>Anterior
+                        </button>
+                        <h3 class="ui basic active header"
+                            style="background-color: inherit; border: 0px; margin: 5px; padding-left: 7px; padding-right: 7px">
+                            1</h3>
+                        <button class="ui basic active right labeled icon button">Siguiente<i
+                                class="right chevron icon"></i>
                         </button>
                     </div>
                 </div>
@@ -52,7 +56,9 @@
         <div class="ui center aligned container" id="nueva" style="display: none">
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
                 <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Empresa Nueva</h2>
-                <VueImgInputer icon="img" size="large" placeholder="Ingrese una imagen de portada para la empresa..." style="background-color: #e9eef1"></VueImgInputer>
+                <VueImgInputer v-model="imagen" icon="img" size="large"
+                               placeholder="Ingrese una imagen de portada para la empresa..."
+                               style="background-color: #e9eef1"></VueImgInputer>
                 <div class="ui fluid labeled small input" style="margin-top: 16px">
                     <div class="ui basic label">Nombre</div>
                     <input type="text" placeholder="Ingrese el nombre de la empresa generadora...">
@@ -62,11 +68,13 @@
                     <input type="text" placeholder="Ingrese un link al sitio web de la empresa...">
                 </div>
                 <h3 class="ui sub header small grey horizontal divider">administrador</h3>
-                <div class="ui fluid labeled small input" style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
+                <div class="ui fluid labeled small input"
+                     style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
                     <div class="ui basic label">Username</div>
                     <input type="text" placeholder="Ingrese username o nombre de usuario con cual ingresar...">
                 </div>
-                <div class="ui fluid labeled small input" style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
+                <div class="ui fluid labeled small input"
+                     style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
                     <div class="ui basic label">Password</div>
                     <input type="text" placeholder="Ingrese password con el cual autenticarse...">
                 </div>
@@ -77,10 +85,14 @@
                     <button class="ui grey left attached button" @click="mostrarListado"><i
                             class="cancel icon"></i>Cancelar
                     </button>
-                    <button class="ui green right attached button"><i class="checkmark icon"></i>Confirmar
+                    <button class="ui green right attached button" @click="guardarImagen"><i class="checkmark icon"></i>Confirmar
                     </button>
                 </div>
             </div>
+            <paperviu-dimmer
+                :imagenSubiendo="subiendoImagen"
+                :imagenSubida="imagenSubida"
+            ></paperviu-dimmer>
         </div>
         <div class="ui page dimmer">
             <div class="content">
@@ -104,7 +116,16 @@
     </div>
 </template>
 <script>
+    import {dropbox} from '../dropbox_token';
+
     export default {
+        data() {
+            return {
+                imagen: Object,
+                subiendoImagen: true,
+                imagenSubida: false
+            }
+        },
         methods: {
             mostrarNueva() {
                 $('#listado').transition({
@@ -123,10 +144,23 @@
                     }
                 });
                 $('#menu2').transition('fade');
+            },
+            guardarImagen() {
+                var dpb = new Dropbox({accessToken: dropbox.token});
+                alert(this.imagen);
+                var _this = this;
+                dpb.filesUpload({
+                    path: '/Aplicaciones/empresas/' + _this.imagen.name,
+                    contents: _this.imagen
+                }).then(function(response){
+                    alert("lo subi papa");
+                }).catch(function(error){
+                    console.log(error);
+                });
             }
         },
-        created(){
-            if(!this.$store.state.empresa) this.$store.commit('verEmpresa');
+        created() {
+            if (!this.$store.state.empresa) this.$store.commit('verEmpresa');
         }
     }
 </script>
