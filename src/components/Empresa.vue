@@ -92,6 +92,9 @@
             <paperviu-dimmer
                 :imagenSubiendo="subiendoImagen"
                 :imagenSubida="imagenSubida"
+                :empresaCreando="empresaCreando"
+                :empresaCreada="empresaCreada"
+                :completado="completado"
             ></paperviu-dimmer>
         </div>
         <div class="ui page dimmer">
@@ -122,8 +125,11 @@
         data() {
             return {
                 imagen: Object,
-                subiendoImagen: true,
-                imagenSubida: false
+                subiendoImagen: false,
+                imagenSubida: false,
+                empresaCreando: false,
+                empresaCreada: false,
+                completado: false
             }
         },
         methods: {
