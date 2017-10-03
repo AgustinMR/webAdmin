@@ -53,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <div class="ui center aligned container" id="nueva" style="display: none">
+        <div class="ui center aligned container" id="nueva" style="display: none; padding-bottom: 80px">
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
                 <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Empresa Nueva</h2>
                 <VueImgInputer v-model="imagen" icon="img" size="large"
@@ -90,6 +90,7 @@
                 </div>
             </div>
             <paperviu-dimmer
+                v-if="comenzar"
                 :imagenSubiendo="subiendoImagen"
                 :imagenSubida="imagenSubida"
                 :empresaCreando="empresaCreando"
@@ -129,7 +130,8 @@
                 imagenSubida: false,
                 empresaCreando: false,
                 empresaCreada: false,
-                completado: false
+                completado: false,
+                comenzar: false
             }
         },
         methods: {
