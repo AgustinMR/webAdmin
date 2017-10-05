@@ -85,17 +85,17 @@
                     <button class="ui grey left attached button" @click="mostrarListado"><i
                             class="cancel icon"></i>Cancelar
                     </button>
-                    <button class="ui green right attached button" @click="guardarImagen"><i class="checkmark icon"></i>Confirmar
+                    <button class="ui green right attached button" @click="crearEmpresa"><i class="checkmark icon"></i>Confirmar
                     </button>
                 </div>
             </div>
             <paperviu-dimmer
-                v-if="comenzar"
-                :imagenSubiendo="subiendoImagen"
-                :imagenSubida="imagenSubida"
-                :empresaCreando="empresaCreando"
-                :empresaCreada="empresaCreada"
-                :completado="completado"
+                    v-if="comenzar"
+                    :imagenSubiendo="subiendoImagen"
+                    :imagenSubida="imagenSubida"
+                    :empresaCreando="empresaCreando"
+                    :empresaCreada="empresaCreada"
+                    :completado="completado"
             ></paperviu-dimmer>
         </div>
         <div class="ui page dimmer">
@@ -131,7 +131,11 @@
                 empresaCreando: false,
                 empresaCreada: false,
                 completado: false,
-                comenzar: false
+                comenzar: false,
+                nombreEmpresa: '',
+                linkEmpresa: '',
+                username: '',
+                password: ''
             }
         },
         methods: {
@@ -160,11 +164,17 @@
                 dpb.filesUpload({
                     path: '/Aplicaciones/empresas/' + _this.imagen.name,
                     contents: _this.imagen
-                }).then(function(response){
+                }).then(function (response) {
                     alert("lo subi papa");
-                }).catch(function(error){
+                }).catch(function (error) {
                     console.log(error);
                 });
+            },
+            crearEmpresa() {
+                this.comenzar = true;
+                this.empresaCreando = true;
+                var _this = this;
+                $.post(this.baseUrl + 'empresas?nombre=' + this.nombreEmpresa + "&link=" + this.linkEmpresa);
             }
         },
         created() {
