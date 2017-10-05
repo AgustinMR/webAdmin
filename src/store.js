@@ -14,7 +14,8 @@ export const store = new Vuex.Store({
         cliente: false,
         categoria: false,
         empresa: false,
-        tipos: false
+        tipos: false,
+        baseUrl: 'http://localhost:8080/webAdmin/api/'
     },
     getters: {},
     mutations: {
