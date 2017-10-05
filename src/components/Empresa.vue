@@ -56,27 +56,44 @@
         <div class="ui center aligned container" id="nueva" style="display: none; padding-bottom: 80px">
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
                 <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Empresa Nueva</h2>
-                <VueImgInputer v-model="imagen" icon="img" size="large"
-                               placeholder="Ingrese una imagen de portada para la empresa..."
-                               style="background-color: #e9eef1"></VueImgInputer>
-                <div class="ui fluid labeled small input" style="margin-top: 16px">
-                    <div class="ui basic label">Nombre</div>
-                    <input type="text" placeholder="Ingrese el nombre de la empresa generadora...">
-                </div>
-                <div class="ui fluid labeled small input" style="margin-top: 16px">
-                    <div class="ui basic label">Sitio web</div>
-                    <input type="text" placeholder="Ingrese un link al sitio web de la empresa...">
-                </div>
-                <h3 class="ui sub header small grey horizontal divider">administrador</h3>
-                <div class="ui fluid labeled small input"
-                     style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
-                    <div class="ui basic label">Username</div>
-                    <input type="text" placeholder="Ingrese username o nombre de usuario con cual ingresar...">
-                </div>
-                <div class="ui fluid labeled small input"
-                     style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
-                    <div class="ui basic label">Password</div>
-                    <input type="text" placeholder="Ingrese password con el cual autenticarse...">
+                <VueImgInputer v-model="imagen" icon="img"
+                               placeholder="Seleccione o arrastre una imagen de portada..."
+                               style="background-color: #e9eef1; margin-top: 26px"></VueImgInputer>
+                <div class="divider"></div>
+                <div style="padding: 16px;">
+                    <div class="ui toggle checkbox" style="margin-top: 16px">
+                        <input v-model="estadoEmpresa" type="checkbox">
+                        <label class="ui header small" style="margin: 0px">Habilitada <span
+                                class="ui grey very tiny header">(No / Si)</span></label>
+                    </div>
+                    <div class="ui fluid labeled small input" style="margin-top: 16px">
+                        <div class="ui basic label">Nombre</div>
+                        <input v-model="nombreEmpresa" type="text"
+                               placeholder="Ingrese el nombre de la empresa generadora...">
+                    </div>
+                    <div class="ui fluid labeled small input" style="margin-top: 16px">
+                        <div class="ui basic label">Sitio web</div>
+                        <input v-model="linkEmpresa" type="text"
+                               placeholder="Ingrese un link al sitio web de la empresa...">
+                    </div>
+                    <div class="ui fluid labeled small input"
+                         style="margin-top: 16px">
+                        <div class="ui basic label">Email</div>
+                        <input v-model="emailEmpresa" type="email" placeholder="Ingrese el email de la empresa...">
+                    </div>
+                    <h3 class="ui sub header small grey horizontal divider">administrador</h3>
+                    <div class="ui fluid labeled small input"
+                         style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
+                        <div class="ui basic label">Username</div>
+                        <input v-model="usernameEmpresa" type="text"
+                               placeholder="Ingrese username o nombre de usuario con cual ingresar...">
+                    </div>
+                    <div class="ui fluid labeled small input"
+                         style="margin-top: 16px; padding-left: 16px; padding-right: 16px">
+                        <div class="ui basic label">Password</div>
+                        <input v-model="passwordEmpresa" type="password"
+                               placeholder="Ingrese password con el cual autenticarse...">
+                    </div>
                 </div>
             </div>
             <div class="ui secondary bottom fixed menu">
@@ -96,6 +113,7 @@
                     :empresaCreando="empresaCreando"
                     :empresaCreada="empresaCreada"
                     :completado="completado"
+                    :errorCrearEmpresa="errorCrearEmpresa"
             ></paperviu-dimmer>
         </div>
         <div class="ui page dimmer">
@@ -131,11 +149,19 @@
                 empresaCreando: false,
                 empresaCreada: false,
                 completado: false,
+                errorCrearEmpresa: false,
                 comenzar: false,
                 nombreEmpresa: '',
                 linkEmpresa: '',
-                username: '',
-                password: ''
+                emailEmpresa: '',
+                usernameEmpresa: '',
+                passwordEmpresa: '',
+                estadoEmpresa: true
+            }
+        },
+        computed: {
+            altaEmpresaURL() {
+                return this.$store.state.baseUrl + 'empresas?nombre=' + this.nombreEmpresa + "&link=" + this.linkEmpresa + "&username=" + this.usernameEmpresa + "&password=" + this.passwordEmpresa + "&email=" + this.emailEmpresa + "&estado=" + this.estadoEmpresa;
             }
         },
         methods: {
@@ -159,13 +185,15 @@
             },
             guardarImagen() {
                 var dpb = new Dropbox({accessToken: dropbox.token});
-                alert(this.imagen);
                 var _this = this;
                 dpb.filesUpload({
-                    path: '/Aplicaciones/empresas/' + _this.imagen.name,
-                    contents: _this.imagen
+                    path: '/Aplicaciones/empresas/' + 'hbo' + _this.imagen.name.substring(_this.imagen.name.lastIndexOf('.'), _this.imagen.name.length),
+                    contents: _this.imagen,
+                    mute: true,
+                    mode: {'.tag': 'overwrite'}
                 }).then(function (response) {
-                    alert("lo subi papa");
+                    var x = JSON.parse(JSON.stringify(response));
+                    alert(x.name);
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -174,7 +202,19 @@
                 this.comenzar = true;
                 this.empresaCreando = true;
                 var _this = this;
-                $.post(this.baseUrl + 'empresas?nombre=' + this.nombreEmpresa + "&link=" + this.linkEmpresa);
+                $.post(this.altaEmpresaURL, function (response) {
+                    if (response !== undefined) {
+                        if (response === true || response === "true") {
+                            _this.empresaCreando = false;
+                            _this.empresaCreada = true;
+                            _this.subiendoImagen = true;
+
+                        } else {
+                            _this.empresaCreando = false;
+                            _this.errorCrearEmpresa = true;
+                        }
+                    }
+                });
             }
         },
         created() {
