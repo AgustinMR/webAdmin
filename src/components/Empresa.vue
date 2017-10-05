@@ -53,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <div class="ui center aligned container" id="nueva" style="display: none">
+        <div class="ui center aligned container" id="nueva" style="display: none; padding-bottom: 80px">
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
                 <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Empresa Nueva</h2>
                 <VueImgInputer v-model="imagen" icon="img" size="large"
@@ -85,16 +85,17 @@
                     <button class="ui grey left attached button" @click="mostrarListado"><i
                             class="cancel icon"></i>Cancelar
                     </button>
-                    <button class="ui green right attached button" @click="guardarImagen"><i class="checkmark icon"></i>Confirmar
+                    <button class="ui green right attached button" @click="crearEmpresa"><i class="checkmark icon"></i>Confirmar
                     </button>
                 </div>
             </div>
             <paperviu-dimmer
-                :imagenSubiendo="subiendoImagen"
-                :imagenSubida="imagenSubida"
-                :empresaCreando="empresaCreando"
-                :empresaCreada="empresaCreada"
-                :completado="completado"
+                    v-if="comenzar"
+                    :imagenSubiendo="subiendoImagen"
+                    :imagenSubida="imagenSubida"
+                    :empresaCreando="empresaCreando"
+                    :empresaCreada="empresaCreada"
+                    :completado="completado"
             ></paperviu-dimmer>
         </div>
         <div class="ui page dimmer">
@@ -129,7 +130,12 @@
                 imagenSubida: false,
                 empresaCreando: false,
                 empresaCreada: false,
-                completado: false
+                completado: false,
+                comenzar: false,
+                nombreEmpresa: '',
+                linkEmpresa: '',
+                username: '',
+                password: ''
             }
         },
         methods: {
@@ -158,11 +164,17 @@
                 dpb.filesUpload({
                     path: '/Aplicaciones/empresas/' + _this.imagen.name,
                     contents: _this.imagen
-                }).then(function(response){
+                }).then(function (response) {
                     alert("lo subi papa");
-                }).catch(function(error){
+                }).catch(function (error) {
                     console.log(error);
                 });
+            },
+            crearEmpresa() {
+                this.comenzar = true;
+                this.empresaCreando = true;
+                var _this = this;
+                $.post(this.baseUrl + 'empresas?nombre=' + this.nombreEmpresa + "&link=" + this.linkEmpresa);
             }
         },
         created() {
