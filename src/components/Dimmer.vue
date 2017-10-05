@@ -5,6 +5,9 @@
                 <div class="center aligned column" style="min-height: 120px">
                     <h1 id="empresaCreada" class="ui inverted header" v-show="empresaCreada"><i
                             class="checkmark inverted green icon"></i>Empresa Creada Correctamente!</h1>
+                    <h1 id="errorCrearEmpresa" class="ui inverted header" v-show="errorCrearEmpresa"><i
+                            class="warning circle inverted red icon"></i>No se ha podido crear la Empresa.</h1>
+                    <button class="ui inverted button large" v-show="errorCrearEmpresa" @click="ocultarModal">Aceptar</button>
                     <h1 id="imagenSubida" class="ui inverted header" v-show="imagenSubida"><i
                             class="checkmark inverted green icon"></i>Imagen Guardada!</h1>
                 </div>
@@ -27,12 +30,17 @@
 </template>
 <script>
     export default {
-        props: ['imagenSubida', 'imagenSubiendo', 'empresaCreando', 'empresaCreada', 'completado'],
+        props: ['imagenSubida', 'imagenSubiendo', 'empresaCreando', 'empresaCreada', 'completado', 'errorCrearEmpresa'],
         mounted() {
             $('.ui.modal').modal({
                 blurring: true,
                 closable: false
             }).modal('show');
+        },
+        methods: {
+            ocultarModal() {
+                $('.ui.modal').modal('hide');
+            }
         },
         watch: {
             imagenSubiendo(newValue, oldValue) {
