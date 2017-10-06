@@ -1,26 +1,30 @@
 <template>
     <div>
-        <div class="ui basic modal">
-            <div class="ui one column stackable grid center aligned text container">
-                <div class="center aligned column" style="min-height: 120px">
-                    <h1 id="empresaCreada" class="ui inverted header" v-show="empresaCreada"><i
-                            class="checkmark inverted green icon"></i>Empresa Creada Correctamente!</h1>
-                    <h1 id="errorCrearEmpresa" class="ui inverted header" v-show="errorCrearEmpresa"><i
-                            class="warning circle inverted red icon"></i>No se ha podido crear la Empresa.</h1>
-                    <h1 id="errorGuardarImagen" class="ui inverted header" v-show="errorGuardarImagen"><i
-                            class="warning circle inverted red icon"></i>No se ha podido Guardar la Imagen.</h1>
-                    <h1 id="imagenSubida" class="ui inverted header" v-show="imagenSubida"><i
-                            class="checkmark inverted green icon"></i>Imagen Guardada!</h1>
-                </div>
-                <div class="center aligned column" style="min-height: 100px">
-                    <div id="imagenSubiendo" v-show="imagenSubiendo" class="ui text actve large loader"><h2
-                            class="ui header small inverted">
-                        Guardando imagen, por favor espere...</h2></div>
-                </div>
-                <div class="center aligned column" style="min-height: 100px">
-                    <div id="empresaCreando" v-show="empresaCreando" class="ui text actve large loader"><h2
-                            class="ui header small inverted">
-                        Creando Empresa, por favor espere...</h2></div>
+        <div id="dimmer" class="ui page active dimmer" style="display: none;">
+            <div class="content" v-if="mostrar">
+                <div class="center">
+                    <div class="ui one column stackable grid center aligned text container">
+                        <div class="center aligned column" style="min-height: 120px">
+                            <h1 id="empresaCreada" class="ui inverted header" v-show="empresaCreada"><i
+                                    class="checkmark inverted green icon"></i>Empresa Creada Correctamente!</h1>
+                            <h1 id="errorCrearEmpresa" class="ui inverted header" v-show="errorCrearEmpresa"><i
+                                    class="warning circle inverted red icon"></i>No se ha podido crear la Empresa.</h1>
+                            <h1 id="errorGuardarImagen" class="ui inverted header" v-show="errorGuardarImagen"><i
+                                    class="warning circle inverted red icon"></i>No se ha podido Guardar la Imagen.</h1>
+                            <h1 id="imagenSubida" class="ui inverted header" v-show="imagenSubida"><i
+                                    class="checkmark inverted green icon"></i>Imagen Guardada!</h1>
+                        </div>
+                        <div class="center aligned column" style="min-height: 100px">
+                            <div id="imagenSubiendo" v-show="imagenSubiendo" class="ui text actve large loader"><h2
+                                    class="ui header small inverted">
+                                Guardando imagen, por favor espere...</h2></div>
+                        </div>
+                        <div class="center aligned column" style="min-height: 100px">
+                            <div id="empresaCreando" v-show="empresaCreando" class="ui text actve large loader"><h2
+                                    class="ui header small inverted">
+                                Creando Empresa, por favor espere...</h2></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,17 +66,12 @@
                     $('#empresaCreada').transition('fade up');
                 }
             },
-            mostrar(newValue, oldValue) {
+            mostrar(newValue, oldValue){
                 if (oldValue === true) {
-                    $('.ui.modal').modal('setting', 'closable', true);
-                    setTimeout(function () {
-                        $('.ui.modal').modal('hide');
-                    }, 5000);
-                } else {
-                    $('.ui.modal').modal({
-                        blurring: true,
-                        closable: false
-                    }).modal('show');
+                    $('#dimmer').transition('fade out');
+                }
+                else {
+                    $('#dimmer').transition('fade in');
                 }
             }
         }
