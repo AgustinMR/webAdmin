@@ -7,7 +7,8 @@
                             class="checkmark inverted green icon"></i>Empresa Creada Correctamente!</h1>
                     <h1 id="errorCrearEmpresa" class="ui inverted header" v-show="errorCrearEmpresa"><i
                             class="warning circle inverted red icon"></i>No se ha podido crear la Empresa.</h1>
-                    <button class="ui inverted button large" v-show="errorCrearEmpresa" @click="ocultarModal">Aceptar</button>
+                    <h1 id="errorGuardarImagen" class="ui inverted header" v-show="errorGuardarImagen"><i
+                            class="warning circle inverted red icon"></i>No se ha podido Guardar la Imagen.</h1>
                     <h1 id="imagenSubida" class="ui inverted header" v-show="imagenSubida"><i
                             class="checkmark inverted green icon"></i>Imagen Guardada!</h1>
                 </div>
@@ -21,27 +22,13 @@
                             class="ui header small inverted">
                         Creando Empresa, por favor espere...</h2></div>
                 </div>
-                <div class="center aligned column" style="padding: 26px;">
-                    <button class="ui large inverted button" v-if="completado">Aceptar</button>
-                </div>
             </div>
         </div>
     </div>
 </template>
 <script>
     export default {
-        props: ['imagenSubida', 'imagenSubiendo', 'empresaCreando', 'empresaCreada', 'completado', 'errorCrearEmpresa'],
-        mounted() {
-            $('.ui.modal').modal({
-                blurring: true,
-                closable: false
-            }).modal('show');
-        },
-        methods: {
-            ocultarModal() {
-                $('.ui.modal').modal('hide');
-            }
-        },
+        props: ['imagenSubida', 'imagenSubiendo', 'empresaCreando', 'empresaCreada', 'mostrar', 'errorCrearEmpresa', 'errorGuardarImagen'],
         watch: {
             imagenSubiendo(newValue, oldValue) {
                 if (oldValue === false) {
@@ -73,6 +60,19 @@
                 }
                 else {
                     $('#empresaCreada').transition('fade up');
+                }
+            },
+            mostrar(newValue, oldValue) {
+                if (oldValue === true) {
+                    $('.ui.modal').modal('setting', 'closable', true);
+                    setTimeout(function () {
+                        $('.ui.modal').modal('hide');
+                    }, 5000);
+                } else {
+                    $('.ui.modal').modal({
+                        blurring: true,
+                        closable: false
+                    }).modal('show');
                 }
             }
         }
