@@ -54,6 +54,7 @@
             </div>
         </div>
         <div class="ui center aligned container" id="nueva" style="display: none; padding-bottom: 80px">
+            <vue-snotify></vue-snotify>
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
                 <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Empresa Nueva</h2>
                 <VueImgInputer v-model="imagen" icon="img"
@@ -107,33 +108,14 @@
                 </div>
             </div>
             <paperviu-dimmer
-                    v-if="comenzar"
+                    :mostrar="modalEmpresa"
                     :imagenSubiendo="subiendoImagen"
                     :imagenSubida="imagenSubida"
                     :empresaCreando="empresaCreando"
                     :empresaCreada="empresaCreada"
-                    :completado="completado"
                     :errorCrearEmpresa="errorCrearEmpresa"
+                    :errorGuardarImagen="errorGuardarImagen"
             ></paperviu-dimmer>
-        </div>
-        <div class="ui page dimmer">
-            <div class="content">
-                <div class="center">
-                    <div class="ui basic secondary inverted segment">
-                        <div class="ui text container">
-                            <h3 class="ui header icon small inverted text">
-                                <i class="ui circular green inverted checkmark icon"></i>
-                                <div class="ui content header inverted large" style="margin: 0px">
-                                    Usuario ingresado con exito!
-                                </div>
-                            </h3>
-                            <div class="ui center aligned basic segment">
-                                <button class="ui inverted button">Aceptar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -148,9 +130,10 @@
                 imagenSubida: false,
                 empresaCreando: false,
                 empresaCreada: false,
-                completado: false,
+                completado: true,
                 errorCrearEmpresa: false,
-                comenzar: false,
+                modalEmpresa: false,
+                errorGuardarImagen: false,
                 nombreEmpresa: '',
                 linkEmpresa: '',
                 emailEmpresa: '',
@@ -162,44 +145,70 @@
         computed: {
             altaEmpresaURL() {
                 return this.$store.state.baseUrl + 'empresas?nombre=' + this.nombreEmpresa + "&link=" + this.linkEmpresa + "&username=" + this.usernameEmpresa + "&password=" + this.passwordEmpresa + "&email=" + this.emailEmpresa + "&estado=" + this.estadoEmpresa;
+            },
+            guardarImagenURL() {
+                return this.$store.state.baseUrl + "empresas/imagen?nombre=" + this.nombreEmpresa + "&imagen=";
             }
         },
         methods: {
             mostrarNueva() {
                 $('#listado').transition({
-                    animation: 'fade',
+                    animation: 'fade out',
                     onComplete: function () {
-                        $('#nueva').transition('fade');
+                        $('#nueva').transition('fade in');
                     }
                 });
-                $('#menu2').transition('fade');
+                $('#menu2').transition('fade out');
             },
             mostrarListado() {
                 $('#nueva').transition({
-                    animation: 'fade',
+                    animation: 'fade out',
                     onComplete: function () {
-                        $('#listado').transition('fade');
+                        $('#listado').transition('fade in');
                     }
                 });
-                $('#menu2').transition('fade');
+                $('#menu2').transition('fade in');
             },
             guardarImagen() {
                 var dpb = new Dropbox({accessToken: dropbox.token});
                 var _this = this;
                 dpb.filesUpload({
-                    path: '/Aplicaciones/empresas/' + 'hbo' + _this.imagen.name.substring(_this.imagen.name.lastIndexOf('.'), _this.imagen.name.length),
+                    path: '/Aplicaciones/empresas/' + _this.nombreEmpresa + _this.imagen.name.substring(_this.imagen.name.lastIndexOf('.'), _this.imagen.name.length),
                     contents: _this.imagen,
                     mute: true,
                     mode: {'.tag': 'overwrite'}
                 }).then(function (response) {
                     var x = JSON.parse(JSON.stringify(response));
-                    alert(x.name);
+                    $.ajax({
+                        url: _this.guardarImagenURL + x.name,
+                        type: 'PUT',
+                        success: function (data) {
+                            if (data === true || data === "true") {
+                                _this.subiendoImagen = false;
+                                _this.imagenSubida = true;
+                                _this.modalEmpresa = false;
+                            } else {
+                                _this.subiendoImagen = false;
+                                _this.errorGuardarImagen = true;
+                                _this.modalEmpresa = false;
+                            }
+                        },
+                        error: function (xhr, status, errorData) {
+                            console.log(xhr + status + errorData);
+                            _this.subiendoImagen = false;
+                            _this.errorGuardarImagen = true;
+                            _this.modalEmpresa = true;
+                        }
+                    });
                 }).catch(function (error) {
                     console.log(error);
+                    _this.subiendoImagen = false;
+                    _this.errorGuardarImagen = true;
+                    _this.modalEmpresa = false;
                 });
             },
             crearEmpresa() {
-                this.comenzar = true;
+                this.modalEmpresa = true;
                 this.empresaCreando = true;
                 var _this = this;
                 $.post(this.altaEmpresaURL, function (response) {
@@ -208,10 +217,11 @@
                             _this.empresaCreando = false;
                             _this.empresaCreada = true;
                             _this.subiendoImagen = true;
-
+                            _this.guardarImagen();
                         } else {
                             _this.empresaCreando = false;
                             _this.errorCrearEmpresa = true;
+                            _this.modalEmpresa = false;
                         }
                     }
                 });

@@ -15,10 +15,14 @@ export const store = new Vuex.Store({
         categoria: false,
         empresa: false,
         tipos: false,
+        modalEmpresa: false,
         baseUrl: 'http://localhost:8080/webAdmin/api/'
     },
     getters: {},
     mutations: {
+        toggleModalEmpresa(state, estado){
+            state.modalEmpresa = estado;
+        },
         verInicio(state) {
             state.inicio = true;
             state.contenido = false;
