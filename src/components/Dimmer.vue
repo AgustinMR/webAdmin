@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div id="dimmer" class="ui page active dimmer" style="display: none;">
-            <div class="content" v-if="mostrar">
+        <div id="dimmer" class="ui basic small modal">
+            <div class="content">
                 <div class="center">
                     <div class="ui one column stackable grid center aligned text container">
                         <div class="center aligned column" style="min-height: 120px">
@@ -9,6 +9,7 @@
                                     class="checkmark inverted green icon"></i>Empresa Creada Correctamente!</h1>
                             <h1 id="errorCrearEmpresa" class="ui inverted header" v-show="errorCrearEmpresa"><i
                                     class="warning circle inverted red icon"></i>No se ha podido crear la Empresa.</h1>
+                            <button class="ui inverted large button" @click="ocultarModal" v-if="completado">Aceptar</button>
                             <h1 id="errorGuardarImagen" class="ui inverted header" v-show="errorGuardarImagen"><i
                                     class="warning circle inverted red icon"></i>No se ha podido Guardar la Imagen.</h1>
                             <h1 id="imagenSubida" class="ui inverted header" v-show="imagenSubida"><i
@@ -24,6 +25,7 @@
                                     class="ui header small inverted">
                                 Creando Empresa, por favor espere...</h2></div>
                         </div>
+                        <button class="ui inverted large button" @click="ocultarModal" v-if="completado2">Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -32,46 +34,72 @@
 </template>
 <script>
     export default {
-        props: ['imagenSubida', 'imagenSubiendo', 'empresaCreando', 'empresaCreada', 'mostrar', 'errorCrearEmpresa', 'errorGuardarImagen'],
+        data() {
+            return {
+                mostrar: false,
+                completado: false,
+                completado2: false
+            }
+        },
+        props: ['imagenSubida', 'imagenSubiendo', 'empresaCreando', 'empresaCreada', 'errorCrearEmpresa', 'errorGuardarImagen'],
+        methods: {
+            ocultarModal() {
+                $('#dimmer').modal('hide');
+            }
+        },
         watch: {
             imagenSubiendo(newValue, oldValue) {
-                if (oldValue === false) {
-                    $('#imagenSubiendo').transition('fade');
-                }
-                else {
-                    $('#imagenSubiendo').transition('fade');
+                if (newValue === true) {
+                    $('#imagenSubiendo').transition('fade in');
+                } else {
+                    $('#imagenSubiendo').transition('fade out');
                 }
             },
-            imagenSubida(nueValue, oldValue) {
-                if (oldValue === false) {
-                    $('#imagenSubida').transition('fade down');
+            errorCrearEmpresa(newValue, oldValue) {
+                if (newValue === true) {
+                    this.completado = true;
+                }
+            },
+            errorGuardarImagen(newValue, oldValue) {
+                if (newValue === true) {
+                    this.completado = true;
+                }
+            },
+            imagenSubida(newValue, oldValue) {
+                if (newValue === true) {
+                    alert();
+                    $('#imagenSubida').transition('fade in');
+                    this.completado2 = true;
                 }
                 else {
-                    $('#imagenSubida').transition('fade up');
+                    $('#imagenSubida').transition('fade out');
                 }
             },
             empresaCreando(newValue, oldValue) {
-                if (oldValue === false) {
-                    $('#empresaCreando').transition('fade');
+                if (newValue === true) {
+                    $('#empresaCreando').transition('fade in');
+                    this.mostrar = true;
                 }
                 else {
-                    $('#empresaCreando').transition('fade');
+                    $('#empresaCreando').transition('fade out');
                 }
             },
-            empresaCreada(nueValue, oldValue) {
-                if (oldValue === false) {
-                    $('#empresaCreada').transition('fade down');
+            empresaCreada(newValue, oldValue) {
+                if (newValue === true) {
+                    $('#empresaCreada').transition('fade in');
                 }
                 else {
-                    $('#empresaCreada').transition('fade up');
+                    $('#empresaCreada').transition('fade out');
                 }
             },
-            mostrar(newValue, oldValue){
-                if (oldValue === true) {
-                    $('#dimmer').transition('fade out');
-                }
-                else {
-                    $('#dimmer').transition('fade in');
+            mostrar(newValue, oldValue) {
+                if (newValue === true) {
+                    //$('#dimmer').dimmer({ opacity: 0.78, closable: false, blurring: true}).dimmer('show');
+                    var _this = this;
+                    $('#dimmer').modal({
+                        closable: false,
+                        transaction: 'fade'
+                    }).modal('show');
                 }
             }
         }
