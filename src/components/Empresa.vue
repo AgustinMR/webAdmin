@@ -54,7 +54,6 @@
             </div>
         </div>
         <div class="ui center aligned container" id="nueva" style="display: none; padding-bottom: 80px">
-            <vue-snotify></vue-snotify>
             <div class="ui center aligned text container" style="padding: 20px; margin: 0px; padding-bottom: 32px">
                 <h2 class="ui header large" style="padding: 16px; color: #5d6a7c">Empresa Nueva</h2>
                 <VueImgInputer v-model="imagen" icon="img"
@@ -170,6 +169,7 @@
                 $('#menu2').transition('fade in');
             },
             guardarImagen() {
+                this.subiendoImagen = true;
                 var dpb = new Dropbox({accessToken: dropbox.token});
                 var _this = this;
                 dpb.filesUpload({
@@ -186,29 +186,24 @@
                             if (data === true || data === "true") {
                                 _this.subiendoImagen = false;
                                 _this.imagenSubida = true;
-                                _this.modalEmpresa = false;
                             } else {
                                 _this.subiendoImagen = false;
                                 _this.errorGuardarImagen = true;
-                                _this.modalEmpresa = false;
                             }
                         },
                         error: function (xhr, status, errorData) {
                             console.log(xhr + status + errorData);
                             _this.subiendoImagen = false;
                             _this.errorGuardarImagen = true;
-                            _this.modalEmpresa = true;
                         }
                     });
                 }).catch(function (error) {
                     console.log(error);
                     _this.subiendoImagen = false;
                     _this.errorGuardarImagen = true;
-                    _this.modalEmpresa = false;
                 });
             },
             crearEmpresa() {
-                this.modalEmpresa = true;
                 this.empresaCreando = true;
                 var _this = this;
                 $.post(this.altaEmpresaURL, function (response) {
@@ -216,12 +211,10 @@
                         if (response === true || response === "true") {
                             _this.empresaCreando = false;
                             _this.empresaCreada = true;
-                            _this.subiendoImagen = true;
                             _this.guardarImagen();
                         } else {
                             _this.empresaCreando = false;
                             _this.errorCrearEmpresa = true;
-                            _this.modalEmpresa = false;
                         }
                     }
                 });

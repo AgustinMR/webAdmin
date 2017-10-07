@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueImgInputer from 'vue-img-inputer';
-import Snotify from 'vue-snotify';
 
 import App from './App.vue';
 import Reporte from './components/Reporte.vue';
@@ -29,7 +28,6 @@ Vue.component('paperviu-tipo', Tipo);
 Vue.component('paperviu-dimmer', Dimmer);
 
 Vue.component('VueImgInputer', VueImgInputer);
-Vue.use(Snotify);
 
 Vue.use(VueRouter);
 const routes = [
