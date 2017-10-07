@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        autenticado: true,
+        autenticado: false,
         username: '',
         nombreEmpresa: '',
         inicio: true,
@@ -20,8 +20,11 @@ export const store = new Vuex.Store({
     },
     getters: {},
     mutations: {
-        toggleModalEmpresa(state, estado){
-            state.modalEmpresa = estado;
+        setAutenticado(state, estado){
+            state.autenticado = estado;
+        },
+        setUsuario(state, username){
+            state.username = username;
         },
         verInicio(state) {
             state.inicio = true;

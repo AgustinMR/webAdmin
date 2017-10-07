@@ -69,6 +69,7 @@
         mounted() {
         },
         methods: {
+
             vistaInicio() {
                 $('#menuBtn').popup('hide');
                 this.$store.commit('verInicio');
